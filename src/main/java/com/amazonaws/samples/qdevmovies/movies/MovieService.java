@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -68,5 +69,83 @@ public class MovieService {
             return Optional.empty();
         }
         return Optional.ofNullable(movieMap.get(id));
+    }
+
+    /**
+     * Search for movies based on multiple criteria with pirate-themed logging
+     * Ahoy! This method be searchin' through our treasure chest of movies!
+     * 
+     * @param name Movie name to search for (partial match, case-insensitive)
+     * @param id Specific movie ID to find
+     * @param genre Genre to filter by (partial match, case-insensitive)
+     * @return List of movies matching the search criteria
+     */
+    public List<Movie> searchMovies(String name, Long id, String genre) {
+        logger.info("Ahoy! Searchin' for treasure with criteria - name: '{}', id: '{}', genre: '{}'", 
+                   name, id, genre);
+        
+        List<Movie> results = new ArrayList<>();
+        
+        // If searchin' by ID specifically, try to find that exact treasure
+        if (id != null && id > 0) {
+            Optional<Movie> movieById = getMovieById(id);
+            if (movieById.isPresent()) {
+                Movie movie = movieById.get();
+                // Check if this treasure also matches other criteria, matey!
+                if (matchesSearchCriteria(movie, name, genre)) {
+                    results.add(movie);
+                    logger.info("Arrr! Found treasure by ID: '{}'", movie.getMovieName());
+                }
+            }
+            return results;
+        }
+        
+        // Search through all movies in our treasure chest
+        for (Movie movie : movies) {
+            if (matchesSearchCriteria(movie, name, genre)) {
+                results.add(movie);
+            }
+        }
+        
+        logger.info("Shiver me timbers! Found {} pieces of treasure matching yer search!", results.size());
+        return results;
+    }
+
+    /**
+     * Check if a movie matches the search criteria
+     * This be our trusty compass for findin' the right treasure!
+     */
+    private boolean matchesSearchCriteria(Movie movie, String name, String genre) {
+        // Check name criteria (partial match, case-insensitive)
+        if (name != null && !name.trim().isEmpty()) {
+            String searchName = name.trim().toLowerCase();
+            String movieName = movie.getMovieName().toLowerCase();
+            if (!movieName.contains(searchName)) {
+                return false;
+            }
+        }
+        
+        // Check genre criteria (partial match, case-insensitive)
+        if (genre != null && !genre.trim().isEmpty()) {
+            String searchGenre = genre.trim().toLowerCase();
+            String movieGenre = movie.getGenre().toLowerCase();
+            if (!movieGenre.contains(searchGenre)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Get all unique genres from our treasure chest
+     * Useful for helpin' landlubbers know what treasures we have!
+     */
+    public List<String> getAllGenres() {
+        return movies.stream()
+                .map(Movie::getGenre)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }
