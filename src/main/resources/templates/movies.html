@@ -5,10 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Movies This Month</title>
     <link rel="stylesheet" th:href="@{/css/movies.css}">
+    <link rel="stylesheet" th:href="@{/css/search.css}">
 </head>
 <body>
     <div class="container">
         <h1>Free Movies This Month</h1>
+        
+        <!-- Pirate-themed Search Form -->
+        <div class="search-treasure-chest">
+            <h2 class="search-title">🏴‍☠️ Search for Treasure (Movies) 🏴‍☠️</h2>
+            <form class="search-form" th:action="@{/movies/search}" method="get">
+                <div class="search-field">
+                    <label for="name">Movie Name (Treasure Title):</label>
+                    <input type="text" 
+                           id="name" 
+                           name="name" 
+                           th:value="${searchName}"
+                           placeholder="Enter movie name, matey...">
+                </div>
+                
+                <div class="search-field">
+                    <label for="id">Movie ID (Treasure Number):</label>
+                    <input type="number" 
+                           id="id" 
+                           name="id" 
+                           th:value="${searchId}"
+                           placeholder="Enter movie ID (1-12)..."
+                           min="1">
+                </div>
+                
+                <div class="search-field">
+                    <label for="genre">Genre (Type of Adventure):</label>
+                    <select id="genre" name="genre">
+                        <option value="">All Genres, ye scallywag!</option>
+                        <option th:each="genreOption : ${allGenres}" 
+                                th:value="${genreOption}" 
+                                th:text="${genreOption}"
+                                th:selected="${genreOption == searchGenre}">Genre</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="search-btn">🔍 Hunt for Treasure!</button>
+                    <a th:href="@{/movies}" class="clear-btn">🧹 Clear Search</a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Search Results Message -->
+        <div th:if="${searchMessage}" 
+             th:class="'search-message ' + ${searchMessageType}" 
+             th:text="${searchMessage}">
+        </div>
+        
+        <!-- Movies Grid -->
         <div class="movies-grid">
             <div class="movie-card" th:each="movie : ${movies}">
                 <div class="movie-icon" th:text="${movie.icon}">🎬</div>
@@ -28,6 +78,12 @@
                 </div>
                 <a th:href="@{/movies/{id}/details(id=${movie.id})}" class="details-btn">View Details</a>
             </div>
+        </div>
+        
+        <!-- No movies message when search returns empty results -->
+        <div th:if="${movies.empty && searchPerformed}" class="search-message warning">
+            <p>🏴‍☠️ Arrr! The treasure chest be empty, matey! 🏴‍☠️</p>
+            <p>Try searchin' with different terms or <a th:href="@{/movies}">view all treasures</a>!</p>
         </div>
     </div>
 </body>
