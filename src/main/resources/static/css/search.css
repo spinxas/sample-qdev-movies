@@ -1,0 +1,138 @@
+/* Pirate-themed search form styles */
+.search-treasure-chest {
+    background: linear-gradient(135deg, #8B4513, #A0522D);
+    border: 3px solid #D2691E;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.search-title {
+    color: #FFD700;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.search-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    align-items: end;
+}
+
+.search-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-field label {
+    color: #FFD700;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.search-field input, .search-field select {
+    padding: 8px 12px;
+    border: 2px solid #D2691E;
+    border-radius: 8px;
+    background: #FFF8DC;
+    font-size: 14px;
+}
+
+.search-field input:focus, .search-field select:focus {
+    outline: none;
+    border-color: #FFD700;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.search-btn {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #8B4513;
+    border: 2px solid #D2691E;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: linear-gradient(135deg, #FFA500, #FFD700);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.clear-btn {
+    background: linear-gradient(135deg, #CD853F, #D2691E);
+    color: white;
+    border: 2px solid #8B4513;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+    background: linear-gradient(135deg, #D2691E, #CD853F);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.search-message {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+.search-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 2px solid #c3e6cb;
+}
+
+.search-message.warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 2px solid #ffeaa7;
+}
+
+.search-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 2px solid #f5c6cb;
+}
+
+.search-message.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 2px solid #bee5eb;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+    .search-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+}
